@@ -35,7 +35,7 @@ pointFlag = True
 asciiFlag = False
 
 # Open and read file
-f = open('hello.txt', 'r')
+f = open('helloWorld.txt', 'r')
 
 # delete \n and to array
 lines = f.read().splitlines()
@@ -55,8 +55,8 @@ j = 0
 while(pointFlag == True):
     i = findI(movVertical, i)
     j = findJ(movHorizon, j)
-    # print('i is', i)
-    # print('j is', j)
+    print('i is', i)
+    print('j is', j)
     if(table[i][j] == '>' and asciiFlag == False): 
         movHorizon = 'right'
         movVertical = 'none'
@@ -69,10 +69,12 @@ while(pointFlag == True):
         continue
     if(table[i][j] == 'v' and asciiFlag == False):  
         movVertical = 'down'
+        movHorizon = 'none'
         print('v')
         continue
     if(table[i][j] == '^' and asciiFlag == False):
         movVertical = 'up'
+        movHorizon = 'none'
         print('^')
         continue
     if(table[i][j] == '"' and asciiFlag == True):
@@ -91,16 +93,15 @@ while(pointFlag == True):
         pointFlag = False
         print(' @ ',)
         continue
-    if(type(table[i][j]) is int and  asciiFlag == False):
+    if((table[i][j] == '0' or  table[i][j] == '1' or table[i][j] == '2' or table[i][j] == '3' or table[i][j] == '4' or table[i][j] == '5' or table[i][j] == '6' or table[i][j] == '7' or table[i][j] == '8' or table[i][j] == '9') and  asciiFlag == False):
         stack.append(table[i][j])
-        print('num i')
+        print('num i', table[i][j])
         continue
     if(asciiFlag):
         stack.append(ord(table[i][j]))
         print('ord symbol', table[i][j])
         continue
    
-
 print('buffer to display is ', bufferEcho)
 print('stack is ', stack)
 print(echo(bufferEcho))
