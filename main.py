@@ -1,4 +1,5 @@
 import numpy as np
+import random 
 
 def findJ(mov, j):
     if(mov == 'right'):
@@ -31,11 +32,13 @@ stack = []
 bufferEcho = []
 movHorizon = 'none'
 movVertical = 'none'
+movHorizonArr = ['left', 'right', 'nope']
+movVerticalArr = ['up', 'down', 'nope']
 pointFlag = True
 asciiFlag = False
 
 # Open and read file
-f = open('helloWorld.txt', 'r')
+f = open('test.txt', 'r')
 
 # delete \n and to array
 lines = f.read().splitlines()
@@ -62,45 +65,86 @@ while(pointFlag == True):
         movVertical = 'none'
         print('>')
         continue
+
     if(table[i][j] == '<' and asciiFlag == False):
         movHorizon = 'left'
         movVertical = 'none'
         print('<')
         continue
+
     if(table[i][j] == 'v' and asciiFlag == False):  
         movVertical = 'down'
         movHorizon = 'none'
         print('v')
         continue
+
     if(table[i][j] == '^' and asciiFlag == False):
         movVertical = 'up'
         movHorizon = 'none'
         print('^')
         continue
+
     if(table[i][j] == '"' and asciiFlag == True):
         asciiFlag = False
         print(' ASCII False')
         continue
+
     if(table[i][j] == '"' and asciiFlag == False):
         asciiFlag = True
-        print(' Ascii True')
+        print(' Ascii True is enabled')
         continue
+
     if(table[i][j] == ',' and asciiFlag == False):
         bufferEcho.append(stack.pop())
         print(' , ')
+        continue
+
+    if(table[i][j] == '_' and asciiFlag == False):
+        print(' _ ')
+        if not stack:
+            movHorizon = 'right'
+            movVertical = 'none'            
+            continue
+        movHorizon = 'left'
+        movVertical = 'none' 
+
+    if(table[i][j] == '|' and asciiFlag == False):
+        print(' | ')
+        if not stack:
+            movHorizon = 'none'
+            movVertical = 'up'            
+        continue
+        movHorizon = 'none'
+        movVertical = 'down'
+        continue
+
+    if(table[i][j] == '#' and asciiFlag == False):
+        print(' # ')
+        j += 1
+        continue
+
+    if(table[i][j] == '?' and asciiFlag == False):
+        print(' ? ')
+        movHorizon = random.choice(movHorizonArr)
+        movVertical = random.choice(movVerticalArr)
+        continue
+
+    if(table[i][j] == '0' and asciiFlag == False):
         continue
     if(table[i][j] == '@' and asciiFlag == False):
         pointFlag = False
         print(' @ ',)
         continue
-    if((table[i][j] == '0' or  table[i][j] == '1' or table[i][j] == '2' or table[i][j] == '3' or table[i][j] == '4' or table[i][j] == '5' or table[i][j] == '6' or table[i][j] == '7' or table[i][j] == '8' or table[i][j] == '9') and  asciiFlag == False):
+    if((table[i][j] == '1' or table[i][j] == '2' or table[i][j] == '3' or table[i][j] == '4' or table[i][j] == '5' or table[i][j] == '6' or table[i][j] == '7' or table[i][j] == '8' or table[i][j] == '9') and  asciiFlag == False):
         stack.append(table[i][j])
         print('num i', table[i][j])
         continue
-    if(asciiFlag):
+    if asciiFlag:
         stack.append(ord(table[i][j]))
         print('ord symbol', table[i][j])
-        continue
+        continue    
+
+
    
 print('buffer to display is ', bufferEcho)
 print('stack is ', stack)
