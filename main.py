@@ -1,6 +1,7 @@
 import numpy as np
 import random 
 
+#move Horizon
 def findJ(mov, j):
     if(mov == 'right'):
         j +=1
@@ -10,6 +11,7 @@ def findJ(mov, j):
         return j
     return j
 
+#move Vertical
 def findI(mov, i):
     if(mov == 'down'):
         i +=1
@@ -19,6 +21,7 @@ def findI(mov, i):
         return i
     return i
 
+#display result
 def echo(buffer):
     str = ''
     for i in range(0, len(buffer)):
@@ -32,8 +35,10 @@ stack = []
 bufferEcho = []
 movHorizon = 'none'
 movVertical = 'none'
+#for random generate
 movHorizonArr = ['left', 'right', 'nope']
 movVerticalArr = ['up', 'down', 'nope']
+#flags
 pointFlag = True
 asciiFlag = False
 
@@ -58,8 +63,8 @@ j = 0
 while(pointFlag == True):
     i = findI(movVertical, i)
     j = findJ(movHorizon, j)
-    print('i is', i)
-    print('j is', j)
+    # print('i is', i)
+    # print('j is', j)
     if(table[i][j] == '>' and asciiFlag == False): 
         movHorizon = 'right'
         movVertical = 'none'
@@ -86,7 +91,7 @@ while(pointFlag == True):
 
     if(table[i][j] == '"' and asciiFlag == True):
         asciiFlag = False
-        print(' ASCII False')
+        print(' Ascii False is enabled')
         continue
 
     if(table[i][j] == '"' and asciiFlag == False):
@@ -131,21 +136,22 @@ while(pointFlag == True):
 
     if(table[i][j] == '0' and asciiFlag == False):
         continue
+
     if(table[i][j] == '@' and asciiFlag == False):
         pointFlag = False
         print(' @ ',)
         continue
+
     if((table[i][j] == '1' or table[i][j] == '2' or table[i][j] == '3' or table[i][j] == '4' or table[i][j] == '5' or table[i][j] == '6' or table[i][j] == '7' or table[i][j] == '8' or table[i][j] == '9') and  asciiFlag == False):
         stack.append(table[i][j])
         print('num i', table[i][j])
         continue
+
     if asciiFlag:
         stack.append(ord(table[i][j]))
         print('ord symbol', table[i][j])
         continue    
 
-
-   
 print('buffer to display is ', bufferEcho)
 print('stack is ', stack)
 print(echo(bufferEcho))
