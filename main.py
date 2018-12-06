@@ -1,4 +1,4 @@
-import numpy as np
+# import numpy as np
 import random 
 
 #move Horizon
@@ -43,7 +43,7 @@ pointFlag = True
 asciiFlag = False
 
 # Open and read file
-f = open('test.txt', 'r')
+f = open('stackOperations.txt', 'r')
 
 # delete \n and to array
 lines = f.read().splitlines()
@@ -65,6 +65,7 @@ while(pointFlag == True):
     j = findJ(movHorizon, j)
     # print('i is', i)
     # print('j is', j)
+    # moving
     if(table[i][j] == '>' and asciiFlag == False): 
         movHorizon = 'right'
         movVertical = 'none'
@@ -133,24 +134,124 @@ while(pointFlag == True):
         movHorizon = random.choice(movHorizonArr)
         movVertical = random.choice(movVerticalArr)
         continue
-
-    if(table[i][j] == '0' and asciiFlag == False):
-        continue
-
+ 
     if(table[i][j] == '@' and asciiFlag == False):
         pointFlag = False
         print(' @ ',)
         continue
-
+    
+    # Constants
     if((table[i][j] == '1' or table[i][j] == '2' or table[i][j] == '3' or table[i][j] == '4' or table[i][j] == '5' or table[i][j] == '6' or table[i][j] == '7' or table[i][j] == '8' or table[i][j] == '9') and  asciiFlag == False):
-        stack.append(table[i][j])
+        stack.append(int(table[i][j]))
         print('num i', table[i][j])
+        continue
+
+    if(table[i][j] == '0' and asciiFlag == False):
+        stack.append(int(table[i][j]))
         continue
 
     if asciiFlag:
         stack.append(ord(table[i][j]))
         print('ord symbol', table[i][j])
+        continue
+
+    # stack
+    if(table[i][j] == ':' and asciiFlag == False):
+        headElement = stack[len(stack) - 1] 
+        stack.append(headElement)           
+        print('copy stack ', headElement)
+        continue
+
+    if(table[i][j] == '=' and asciiFlag == False):
+        headElement = stack[len(stack) - 1] 
+        childrenElement = stack[len(stack) - 2] 
+        stack.pop()
+        stack.pop()
+        stack.append(headElement)
+        stack.append(childrenElement)
+        print('change stack ', childrenElement, headElement)
+        continue
+
+    if(table[i][j] == '$' and asciiFlag == False):
+        stack.pop()           
+        print('delete head stack ')
+        continue
+
+    # math
+    if(table[i][j] == '+' and asciiFlag == False):
+        headElement = stack[len(stack) - 1] 
+        childrenElement = stack[len(stack) - 2]
+        res = int(headElement)  + int(childrenElement)
+        stack.pop()
+        stack.pop()
+        stack.append(res)
+        print('sum of  ', headElement, childrenElement, res)
+        continue
+
+    if(table[i][j] == '-' and asciiFlag == False):
+        headElement = stack[len(stack) - 1] 
+        childrenElement = stack[len(stack) - 2]
+        res = int(childrenElement) - int(headElement)  
+        stack.pop()
+        stack.pop()
+        stack.append(res)
+        print('minus of  ', headElement, childrenElement, res)
+        continue
+
+    if(table[i][j] == '*' and asciiFlag == False):
+        headElement = stack[len(stack) - 1] 
+        childrenElement = stack[len(stack) - 2]
+        res = int(headElement) * int(childrenElement)
+        stack.pop()
+        stack.pop()
+        stack.append(res)
+        print('mul of  ', headElement, childrenElement, res)
+        continue
+
+    if(table[i][j] == '/' and asciiFlag == False):
+        headElement = stack[len(stack) - 1] 
+        childrenElement = stack[len(stack) - 2]
+        res = int(childrenElement) / int(headElement)  
+        stack.pop()
+        stack.pop()
+        stack.append(res)
+        print('div of  ', headElement, childrenElement, res)
+        continue
+
+    if(table[i][j] == '%' and asciiFlag == False):
+        headElement = stack[len(stack) - 1] 
+        childrenElement = stack[len(stack) - 2]
+        res = int(childrenElement) % int(headElement) 
+        stack.pop()
+        stack.pop()
+        stack.append(res)
+        print('div of  ', headElement, childrenElement, res)
+        continue
+    # Logic operations 
+    if(table[i][j] == '!' and asciiFlag == False):
+        headElement = stack[len(stack) - 1] 
+        print(' ! ', headElement)
+        if(headElement == 0):   
+            print('dsadasdasdas')          
+            stack.pop()
+            stack.append(1) 
+            continue    
+        stack.pop()
+        stack.append(0)
         continue    
+    if(table[i][j] == '`' and asciiFlag == False):
+        headElement = stack[len(stack) - 1] 
+        childrenElement = stack[len(stack) - 2]
+        if(childrenElement > headElement):
+            stack.pop()
+            stack.pop()
+            stack.append(1)
+            continue
+        else:
+            stack.pop()
+            stack.pop()
+            stack.append(0)    
+            continue 
 
 print('buffer to display is ', bufferEcho)
 print('stack is ', stack)
