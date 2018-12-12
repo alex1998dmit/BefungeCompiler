@@ -1,4 +1,3 @@
-# import numpy as np
 import random 
 
 #move Horizon
@@ -23,10 +22,12 @@ def findI(mov, i):
 
 #display result
 def echo(buffer):
-    str = ''
+    res = ''
     for i in range(0, len(buffer)):
-        str = str + chr(buffer[i])
-    return str    
+        if len(str(buffer[i])) == 1:
+            res = res + str(buffer[i])
+        res = res + chr(buffer[i])
+    return res    
 
 #start program
 lines = []
@@ -105,6 +106,11 @@ while(pointFlag == True):
         print(' , ')
         continue
 
+    if(table[i][j] == '.' and asciiFlag == False):
+        bufferEcho.append(stack.pop())
+        print(' . ')
+        continue
+
     if(table[i][j] == '_' and asciiFlag == False):
         print(' _ ')
         if not stack:
@@ -116,12 +122,12 @@ while(pointFlag == True):
 
     if(table[i][j] == '|' and asciiFlag == False):
         print(' | ')
-        if not stack:
+        if not stack or stack.pop() == 0:
             movHorizon = 'none'
-            movVertical = 'up'            
-        continue
+            movVertical = 'down'            
+            continue
         movHorizon = 'none'
-        movVertical = 'down'
+        movVertical = 'up'
         continue
 
     if(table[i][j] == '#' and asciiFlag == False):
@@ -253,7 +259,7 @@ while(pointFlag == True):
             stack.append(0)    
             continue 
 
-print('buffer to display is ', bufferEcho)
+# print('buffer to display is ', bufferEcho)
 print('stack is ', stack)
 print(echo(bufferEcho))
 
